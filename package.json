@@ -13,6 +13,7 @@
     "electron": "^23.1.0"
   },
   "dependencies": {
+    "screen": "^0.2.10",
     "systeminformation": "github:Glebkiselev11/systeminformation#30814c7c2237cbc87723a1de235a1baa65d89b17",
     "win-api": "^0.0.4",
     "win32-api": "^20.4.1"
