@@ -1,6 +1,5 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const systeminformation = require('systeminformation')
 let {Log} = require('./utils/utils')
 const nodeManager = require('node-task-mgr')
 
@@ -20,8 +19,9 @@ const createWindow = () => {
 
   win.webContents.openDevTools();
 
-
-  getForbiddenProcesses()
+  getForbiddenProcesses(null, []).then(result => {
+    console.log(result);
+  })
 
 }
 
@@ -34,7 +34,7 @@ app.whenReady().then(() => {
 });
 
 async function getForbiddenProcesses (_event, forbiddenProcesses) {
-  return nodeManager.getProcList()
+  return nodeManager.getProcessList()
   .then(({processes, error}) => {
     if (error) {
       return Promise.reject(error)

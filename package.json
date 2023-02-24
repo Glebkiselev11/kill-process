@@ -13,7 +13,8 @@
     "electron": "^23.1.0"
   },
   "dependencies": {
-    "systeminformation": "github:Glebkiselev11/systeminformation#30814c7c2237cbc87723a1de235a1baa65d89b17",
-    "node-task-mgr": "^1.1.0"
+    "node-fetch": "2.6.1",
+    "node-global-key-listener": "^0.1.1",
+    "node-task-mgr": "^1.1.6"
   }
 }
