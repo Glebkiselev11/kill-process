@@ -1,5 +1,5 @@
 {
-  "name": "second-monitor-detecter",
+  "name": "kill-process",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -13,6 +13,7 @@
     "electron": "^23.1.0"
   },
   "dependencies": {
-    "systeminformation": "github:Glebkiselev11/systeminformation#30814c7c2237cbc87723a1de235a1baa65d89b17"
+    "systeminformation": "github:Glebkiselev11/systeminformation#30814c7c2237cbc87723a1de235a1baa65d89b17",
+    "node-task-mgr": "^1.1.0"
   }
 }

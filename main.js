@@ -2,7 +2,8 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const systeminformation = require('systeminformation')
 let {Log} = require('./utils/utils')
-let {countDisplays} = require('./utils/countDisplays')
+const nodeManager = require('node-task-mgr')
+
 
 let log;
 
@@ -20,9 +21,8 @@ const createWindow = () => {
   win.webContents.openDevTools();
 
 
-  setInterval(() => {
-    isOneDisplay()
-  }, 2000);
+  getForbiddenProcesses()
+
 }
 
 app.whenReady().then(() => {
@@ -33,13 +33,29 @@ app.whenReady().then(() => {
   });
 });
 
-const isOneDisplay = async () => {
-  let count = await countDisplays(log)
-  log('log', `Number of displays: ${count}`)
+async function getForbiddenProcesses (_event, forbiddenProcesses) {
+  return nodeManager.getProcList()
+  .then(({processes, error}) => {
+    if (error) {
+      return Promise.reject(error)
+    }
+    return processes || []
+  })
+  .then((processes) =>
+    processes.filter(([, processName]) => forbiddenProcesses.includes(processName)))
+}
 
-  if (count === 0) {
-    log('warning', 'No displays detected')
+async function killProcesses (_event, processes) {
+  let unkilled = []
+
+  for (let [pid, processName] of processes) {
+    let killResult = await nodeManager.killProcByPID(pid)
+
+    if (killResult.error) {
+      log('error', `Error in kill process: ${processName}, stderr: ${killResult.error.trim()}`)
+      unkilled.push([pid, processName])
+    }
   }
 
-  return count === 1
+  return unkilled
 }
